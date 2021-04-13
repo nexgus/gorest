@@ -23,6 +23,7 @@ message ReqContext {
     repeated Param params = 4;
     map<string, Strings> queries = 5;
     bytes body = 6;
+    string remote = 7;
 }
 
 message RespContext {

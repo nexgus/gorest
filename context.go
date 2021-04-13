@@ -9,6 +9,7 @@ type ReqContext struct {
 	Params  Params
 	Queries map[string][]string
 	Body    []byte
+	Remote  string
 }
 
 func (rc *ReqContext) Header(key string) string {
@@ -37,8 +38,9 @@ func (rc *ReqContext) Param(key string) string {
 
 func (rc *ReqContext) ToPbuf(key string) *pbuf.ReqContext {
 	req := pbuf.ReqContext{
-		Index: rc.Index,
-		Body:  rc.Body,
+		Index:  rc.Index,
+		Body:   rc.Body,
+		Remote: rc.Remote,
 	}
 
 	switch rc.Method {
