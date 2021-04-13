@@ -1,0 +1,18 @@
+#!/bin/bash
+CURDIR=$(pwd)
+FILEPATH=$(realpath $0)
+BASEDIR=$(dirname $FILEPATH)
+
+cd $BASEDIR
+export GOPATH=$(realpath $BASEDIR/../..)
+
+echo $PATH | grep -q $GOPATH/bin
+if [ $? -ne 0 ]; then
+    export PATH=$PATH:$GOPATH/bin
+fi
+
+protoc --go_out=. --go_opt=paths=source_relative \
+    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+    ./restype.proto
+
+cd $CURDIR
