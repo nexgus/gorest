@@ -36,7 +36,7 @@ func (rc *ReqContext) Param(key string) string {
 	return rc.Params.ByName(key)
 }
 
-func (rc *ReqContext) ToPbuf(key string) *pbuf.ReqContext {
+func (rc *ReqContext) ToPbuf() *pbuf.ReqContext {
 	req := pbuf.ReqContext{
 		Index:  rc.Index,
 		Body:   rc.Body,
