@@ -112,7 +112,7 @@ type RespContext struct {
 	Payload []byte
 }
 
-func FromPbuf(rc *pbuf.RespContext) *RespContext {
+func PBufToRespContext(rc *pbuf.RespContext) *RespContext {
 	resp := RespContext{
 		Code:    int(rc.Code),
 		Payload: rc.Payload,
@@ -128,4 +128,36 @@ func FromPbuf(rc *pbuf.RespContext) *RespContext {
 	}
 
 	return &resp
+}
+
+func PBufToReqContext(rc *pbuf.ReqContext) *ReqContext {
+	req := &ReqContext{
+		Index:  rc.Index,
+		Method: pbuf.ReqContext_Method_name[int32(rc.Method)],
+		Body:   rc.Body,
+		Remote: rc.Remote,
+	}
+
+	headers := make(map[string][]string)
+	for key, values := range rc.Headers {
+		headers[key] = values.Values
+	}
+	req.Headers = headers
+
+	params := Params{}
+	for _, param := range rc.Params {
+		params = append(params, Param{
+			Key:   param.Key,
+			Value: param.Value,
+		})
+	}
+	req.Params = params
+
+	queries := make(map[string][]string)
+	for key, values := range rc.Queries {
+		queries[key] = values.Values
+	}
+	req.Queries = queries
+
+	return req
 }
