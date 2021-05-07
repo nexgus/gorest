@@ -32,6 +32,14 @@ func (rc *ReqContext) Query(key string) string {
 	}
 }
 
+func (rc *ReqContext) QueryList(key string) []string {
+	if values, ok := rc.Queries[key]; !ok {
+		return make([]string, 0)
+	} else {
+		return values
+	}
+}
+
 func (rc *ReqContext) Param(key string) string {
 	return rc.Params.ByName(key)
 }
